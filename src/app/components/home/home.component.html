@@ -1,1 +1,31 @@
-<p>home works!</p>
+<div class="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+  <div class="text-center mt-12">
+    <h1 class="text-4xl font-bold text-gray-800">Welcome to JobFinder</h1>
+    <p class="text-gray-600">Find your dream job with us today!</p>
+  </div>
+
+  <section class="w-full max-w-md mt-8">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Search for Jobs</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Job Title</mat-label>
+            <input matInput placeholder="e.g. Software Engineer" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>Location</mat-label>
+            <input matInput placeholder="e.g. New York" />
+          </mat-form-field>
+          <div class="mt-6">
+            <button mat-raised-button color="primary" class="w-full">
+              Search Jobs
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>

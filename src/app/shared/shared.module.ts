@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -23,6 +25,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSidenavModule,
     MatListModule,
     MatTableModule,
+    RouterModule,
+    MatPaginatorModule,
   ],
   exports: [
     CommonModule,
@@ -34,6 +38,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSidenavModule,
     MatListModule,
     MatTableModule,
+    RouterModule,
+    MatPaginatorModule,
   ],
 })
 export class SharedModule {}

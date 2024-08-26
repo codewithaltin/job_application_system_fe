@@ -1,37 +1,51 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { SharedModule } from '../../shared/shared.module';
 import { MatPaginator } from '@angular/material/paginator';
 import { Applicant } from './models/applicant';
+import { ApplicantListService } from './service/applicant-list.service';
+import { SharedModule } from '../../shared/shared.module';
+
 @Component({
   selector: 'app-applicants-list',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './applicants-list.component.html',
-  styleUrl: './applicants-list.component.scss',
+  styleUrls: ['./applicants-list.component.scss'],
 })
-export class ApplicantsListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'email'];
+export class ApplicantsListComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['firstName', 'lastName', 'actions'];
   dataSource = new MatTableDataSource<Applicant>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  constructor(private applicantListService: ApplicantListService) {}
+
   ngOnInit(): void {
-    this.dataSource.data = [
-      { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
-      { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com' },
-      { id: 3, name: 'Jane Smith', email: 'jane.smith@example.com' },
-      { id: 4, name: 'Jane Smith', email: 'jane.smith@example.com' },
-      { id: 5, name: 'Jane Smith', email: 'jane.smith@example.com' },
-      { id: 6, name: 'Jane Smith', email: 'jane.smith@example.com' },
-      { id: 7, name: 'Jane Smith', email: 'jane.smith@example.com' },
-      { id: 8, name: 'Jane Smith', email: 'jane.smith@example.com' },
-    ];
+    this.fetchApplicants();
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  trackByFn(index: number, item: Applicant): number {
+  fetchApplicants(): void {
+    this.applicantListService.getApplicants().subscribe({
+      next: (data: Applicant[]) => {
+        this.dataSource.data = data;
+      },
+      error: (error: Error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  trackByFn(index: number, item: Applicant): string {
     return item.id;
+  }
+
+  deleteApplicant(_t39: any) {
+    throw new Error('Method not implemented.');
+  }
+  editApplicant(_t39: any) {
+    throw new Error('Method not implemented.');
   }
 }

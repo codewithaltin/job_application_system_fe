@@ -1,5 +1,9 @@
+import { Application } from './application';
+
 export interface Applicant {
-  id: number;
-  name: string;
-  email: string;
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  dateOfBirth: string | null;
+  applications: Application[];
 }

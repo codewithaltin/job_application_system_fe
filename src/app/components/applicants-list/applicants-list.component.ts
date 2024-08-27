@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Applicant } from './models/applicant';
-import { ApplicantListService } from './service/applicant-list.service';
 import { SharedModule } from '../../shared/shared.module';
+import { ApplicantListService } from '../../services/applicant-list.service';
 
 @Component({
   selector: 'app-applicants-list',

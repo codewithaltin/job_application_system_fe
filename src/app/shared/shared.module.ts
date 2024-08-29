@@ -13,7 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 @NgModule({
   providers: [
     {
@@ -34,6 +35,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     MatTableModule,
     RouterModule,
     MatPaginatorModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   exports: [
     CommonModule,
@@ -47,6 +50,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     MatTableModule,
     RouterModule,
     MatPaginatorModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
 })
 export class SharedModule {}

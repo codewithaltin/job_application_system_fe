@@ -1,0 +1,138 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #f7fafc;
+}
+
+.header {
+  text-align: center;
+  margin-top: 3rem;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  p {
+    color: #666;
+  }
+}
+
+.search-section {
+  width: 100%;
+  max-width: 640px;
+  margin-top: 2rem;
+
+  .search-form {
+    display: flex;
+    gap: 1rem;
+    .job-title {
+      flex-grow: 1;
+    }
+
+    .search-button {
+      width: 100px;
+      height: 55px;
+      font-size: 1rem;
+    }
+  }
+}
+
+.job-listings {
+  width: 100%;
+  max-width: 640px;
+  margin-top: 3rem;
+
+  .job-card {
+    margin-bottom: 1.5rem;
+
+    mat-card {
+      padding: 1rem;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #333;
+        }
+
+        .employer {
+          display: flex;
+          align-items: center;
+          color: #555;
+
+          mat-icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+
+      .description {
+        margin-top: 1rem;
+        color: #666;
+      }
+
+      .details {
+        margin-top: 1rem;
+
+        .location,
+        .category,
+        .open-positions {
+          display: flex;
+          align-items: center;
+          margin-top: 0.5rem;
+          color: #555;
+
+          mat-icon.outlined {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+
+      .footer {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .salary {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #333;
+        }
+
+        .actions {
+          button {
+            padding: 0.5rem 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}

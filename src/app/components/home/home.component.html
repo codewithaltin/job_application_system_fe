@@ -12,9 +12,15 @@
         <form class="search-form">
           <mat-form-field class="job-title">
             <mat-label>Job Title</mat-label>
-            <input matInput placeholder="e.g. Software Engineer" />
+            <input matInput placeholder="e.g. Software Engineer" #searchInput />
           </mat-form-field>
-          <button mat-flat-button color="primary" class="search-button">
+          <button
+            mat-flat-button
+            color="primary"
+            class="search-button"
+            type="button"
+            (click)="searchJobPostings(searchInput.value)"
+          >
             Search
           </button>
         </form>
@@ -24,6 +30,10 @@
 
   <!-- Job Listings Section -->
   <section class="job-listings">
+    <div *ngIf="noJobsFound" class="no-jobs-found">
+      <p>No jobs found!</p>
+    </div>
+    <!-- Job Listings Section -->
     <div *ngFor="let job of jobPostings" class="job-card">
       <mat-card>
         <div class="header">
@@ -53,9 +63,15 @@
         <div class="footer">
           <span class="salary">${{ job.salary }}/year</span>
           <div class="actions">
-            <button mat-stroked-button color="primary">
-              Apply for the Job
+            <button
+              *ngIf="!hasApplied(job)"
+              mat-stroked-button
+              color="primary"
+              (click)="applyForJob(job.id)"
+            >
+              Apply Now
             </button>
+            <p *ngIf="hasApplied(job)" style="color: green">Applied</p>
           </div>
         </div>
       </mat-card>

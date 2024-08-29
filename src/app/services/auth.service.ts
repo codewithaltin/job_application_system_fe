@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiBaseService } from './api/api-base.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,15 @@ export class AuthService extends ApiBaseService {
 
   isAuthenticated(): boolean {
     return this.getToken() !== null;
+  }
+
+  getUserIdFromToken(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.userId;
+    }
+    return null;
   }
 
   logout(): void {

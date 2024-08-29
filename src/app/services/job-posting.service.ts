@@ -8,6 +8,7 @@ import { JobPosting } from '../components/home/models/job-posting';
 })
 export class JobPostingService extends ApiBaseService {
   private readonly endpoint = 'job-postings';
+  private readonly applicationEndpoint = 'applications';
 
   getAllJobPostings(page: number = 0, size: number = 10): Observable<any> {
     return this.get<any>(`${this.endpoint}?page=${page}&size=${size}`);
@@ -27,5 +28,26 @@ export class JobPostingService extends ApiBaseService {
 
   deleteJobPosting(id: number): Observable<any> {
     return this.delete<any>(`${this.endpoint}/${id}`);
+  }
+
+  searchJobPostingsByTitle(keyword: string): Observable<JobPosting[]> {
+    return this.get<JobPosting[]>(
+      `${this.endpoint}/bytitle?keyword=${keyword}`
+    );
+  }
+
+  searchJobPostingsBySalary(salary: number): Observable<any> {
+    return this.get<any>(`${this.endpoint}/bysalary?salary=${salary}`);
+  }
+
+  searchJobPostingsByPostDate(postDate: string): Observable<any> {
+    return this.get<any>(`${this.endpoint}/bypostdate?postDate=${postDate}`);
+  }
+
+  applyForAJob(jobPostingId: number): Observable<any> {
+    return this.post<any>(
+      `${this.applicationEndpoint}/apply/${jobPostingId}`,
+      {}
+    );
   }
 }

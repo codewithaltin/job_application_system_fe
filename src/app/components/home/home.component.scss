@@ -23,17 +23,17 @@
     color: #666;
   }
 }
-
 .search-section {
-  width: 100%;
-  max-width: 640px;
-  margin-top: 2rem;
-
   .search-form {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
-    .job-title {
+
+    .job-title,
+    .salary,
+    .post-date {
       flex-grow: 1;
+      min-width: 200px;
     }
 
     .search-button {

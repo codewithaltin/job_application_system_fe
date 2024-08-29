@@ -12,14 +12,40 @@
         <form class="search-form">
           <mat-form-field class="job-title">
             <mat-label>Job Title</mat-label>
-            <input matInput placeholder="e.g. Software Engineer" #searchInput />
+            <input matInput #searchInput />
           </mat-form-field>
+          <mat-form-field class="salary">
+            <mat-label>Minimum Salary</mat-label>
+            <input matInput type="number" #salaryInput />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Post Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [(ngModel)]="postDate"
+              name="postDate"
+              #postDateInput
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
           <button
             mat-flat-button
             color="primary"
             class="search-button"
             type="button"
-            (click)="searchJobPostings(searchInput.value)"
+            (click)="
+              searchJobPostings(
+                searchInput.value,
+                salaryInput.value,
+                postDateInput.value
+              )
+            "
           >
             Search
           </button>
@@ -33,7 +59,6 @@
     <div *ngIf="noJobsFound" class="no-jobs-found">
       <p>No jobs found!</p>
     </div>
-    <!-- Job Listings Section -->
     <div *ngFor="let job of jobPostings" class="job-card">
       <mat-card>
         <div class="header">

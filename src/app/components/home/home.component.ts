@@ -4,7 +4,8 @@ import { JobPostingService } from '../../services/job-posting.service';
 import { JobPosting } from './models/job-posting';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
-import { NotificationService } from '../../services/notification.service'; // Import NotificationService
+import { NotificationService } from '../../services/notification.service';
+import { DatePipe } from '@angular/common'; // Import DatePipe
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ import { NotificationService } from '../../services/notification.service'; // Im
   imports: [SharedModule, MatProgressSpinnerModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  providers: [DatePipe],
 })
 export class HomeComponent implements OnInit {
   jobPostings: JobPosting[] = [];
@@ -21,11 +23,13 @@ export class HomeComponent implements OnInit {
   private page = 0;
   private readonly size = 5;
   loggedInUserId: string | null = null;
+  postDate: Date | null = null;
 
   constructor(
     private jobPostingService: JobPostingService,
     private authService: AuthService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -60,17 +64,41 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  searchJobPostings(keyword: string): void {
-    this.jobPostingService.searchJobPostingsByTitle(keyword).subscribe({
-      next: (response) => {
-        this.jobPostings = response;
-        this.noJobsFound = this.jobPostings.length === 0;
-      },
-      error: (error) => {
-        console.error('Error searching job postings:', error);
-        this.notificationService.show('Error searching job postings');
-      },
-    });
+  searchJobPostings(keyword: string, salary?: string, postDate?: string): void {
+    let formattedDate: string | null = null;
+
+    if (this.postDate) {
+      formattedDate = this.datePipe.transform(this.postDate, 'dd/MM/yyyy');
+    }
+
+    if (salary) {
+      this.jobPostingService.searchJobPostingsBySalary(+salary).subscribe({
+        next: (response) => this.handleSearchResponse(response),
+        error: (error) => this.handleSearchError(error),
+      });
+    } else if (formattedDate) {
+      this.jobPostingService
+        .searchJobPostingsByPostDate(formattedDate)
+        .subscribe({
+          next: (response) => this.handleSearchResponse(response),
+          error: (error) => this.handleSearchError(error),
+        });
+    } else {
+      this.jobPostingService.searchJobPostingsByTitle(keyword).subscribe({
+        next: (response) => this.handleSearchResponse(response),
+        error: (error) => this.handleSearchError(error),
+      });
+    }
+  }
+
+  private handleSearchResponse(response: JobPosting[]): void {
+    this.jobPostings = response;
+    this.noJobsFound = this.jobPostings.length === 0;
+  }
+
+  private handleSearchError(error: any): void {
+    console.error('Error searching job postings:', error);
+    this.notificationService.show('Error searching job postings');
   }
 
   private setLoadingState(isLoading: boolean): void {
@@ -81,6 +109,7 @@ export class HomeComponent implements OnInit {
     this.jobPostings = [...this.jobPostings, ...response.content];
     this.hasMore = response.pageable.pageNumber < response.totalPages - 1;
     this.setLoadingState(false);
+    this.page++;
   }
 
   private handleErrorLoad(): void {

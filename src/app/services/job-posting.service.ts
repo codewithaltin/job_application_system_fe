@@ -36,12 +36,16 @@ export class JobPostingService extends ApiBaseService {
     );
   }
 
-  searchJobPostingsBySalary(salary: number): Observable<any> {
-    return this.get<any>(`${this.endpoint}/bysalary?salary=${salary}`);
+  searchJobPostingsBySalary(salary: number): Observable<JobPosting[]> {
+    return this.get<JobPosting[]>(`${this.endpoint}/bysalary?salary=${salary}`);
   }
 
-  searchJobPostingsByPostDate(postDate: string): Observable<any> {
-    return this.get<any>(`${this.endpoint}/bypostdate?postDate=${postDate}`);
+  searchJobPostingsByPostDate(
+    postDate: string | null
+  ): Observable<JobPosting[]> {
+    return this.get<JobPosting[]>(
+      `${this.endpoint}/bypostdate?postDate=${postDate}`
+    );
   }
 
   applyForAJob(jobPostingId: number): Observable<any> {

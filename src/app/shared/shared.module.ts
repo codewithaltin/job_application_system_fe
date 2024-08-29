@@ -14,7 +14,9 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 @NgModule({
   providers: [
     {
@@ -31,11 +33,14 @@ import { MatOptionModule } from '@angular/material/core';
     MatCardModule,
     MatIconModule,
     MatSidenavModule,
+    MatDatepickerModule,
     MatListModule,
     MatTableModule,
     RouterModule,
+    MatNativeDateModule,
     MatPaginatorModule,
     MatSelectModule,
+    FormsModule,
     MatOptionModule,
   ],
   exports: [
@@ -47,7 +52,10 @@ import { MatOptionModule } from '@angular/material/core';
     MatIconModule,
     MatSidenavModule,
     MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatTableModule,
+    FormsModule,
     RouterModule,
     MatPaginatorModule,
     MatSelectModule,

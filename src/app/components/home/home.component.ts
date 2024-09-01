@@ -5,7 +5,9 @@ import { JobPosting } from './models/job-posting';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
-import { DatePipe } from '@angular/common'; // Import DatePipe
+import { DatePipe } from '@angular/common';
+import { JobCategory } from '../../enums/enums';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -20,12 +22,18 @@ export class HomeComponent implements OnInit {
   isLoading = false;
   hasMore = true;
   noJobsFound = false;
+
+  form!: FormGroup;
+
   private page = 0;
   private readonly size = 5;
-  loggedInUserId: string | null = null;
-  postDate: Date | null = null;
+  private loggedInUserId: string | null = null;
+
+  categories = Object.values(JobCategory);
+  salaryOptions = [1000, 3000, 5000, 8000, 10000];
 
   constructor(
+    private fb: FormBuilder,
     private jobPostingService: JobPostingService,
     private authService: AuthService,
     private notificationService: NotificationService,
@@ -33,8 +41,19 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initForm();
     this.loggedInUserId = this.authService.getUserIdFromToken();
     this.loadJobPostings();
+    this.subscribeToFilterChanges();
+  }
+
+  initForm(): void {
+    this.form = this.fb.group({
+      keyword: [''],
+      selectedSalary: [null],
+      postDate: [null],
+      selectedCategory: [null],
+    });
   }
 
   loadJobPostings(): void {
@@ -64,36 +83,49 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  searchJobPostings(keyword: string, salary?: string, postDate?: string): void {
-    let formattedDate: string | null = null;
+  searchJobPostings(): void {
+    const { keyword, selectedSalary, postDate, selectedCategory } =
+      this.form.value;
 
-    if (this.postDate) {
-      formattedDate = this.datePipe.transform(this.postDate, 'dd/MM/yyyy');
-    }
+    const formattedDate = postDate
+      ? this.datePipe.transform(postDate, 'dd/MM/yyyy')
+      : null;
 
-    if (salary) {
-      this.jobPostingService.searchJobPostingsBySalary(+salary).subscribe({
+    this.jobPostingService
+      .searchJobPostingsByFilters({
+        title: keyword,
+        salary: selectedSalary || undefined,
+        postDate: formattedDate || undefined,
+        category: selectedCategory || undefined,
+      })
+      .subscribe({
         next: (response) => this.handleSearchResponse(response),
         error: (error) => this.handleSearchError(error),
       });
-    } else if (formattedDate) {
-      this.jobPostingService
-        .searchJobPostingsByPostDate(formattedDate)
-        .subscribe({
-          next: (response) => this.handleSearchResponse(response),
-          error: (error) => this.handleSearchError(error),
-        });
-    } else {
-      this.jobPostingService.searchJobPostingsByTitle(keyword).subscribe({
-        next: (response) => this.handleSearchResponse(response),
-        error: (error) => this.handleSearchError(error),
-      });
-    }
+  }
+
+  private subscribeToFilterChanges(): void {
+    this.form
+      .get('selectedSalary')!
+      .valueChanges.subscribe(() =>
+        setTimeout(() => this.searchJobPostings(), 0)
+      );
+    this.form
+      .get('postDate')!
+      .valueChanges.subscribe(() =>
+        setTimeout(() => this.searchJobPostings(), 0)
+      );
+    this.form
+      .get('selectedCategory')!
+      .valueChanges.subscribe(() =>
+        setTimeout(() => this.searchJobPostings(), 0)
+      );
   }
 
   private handleSearchResponse(response: JobPosting[]): void {
     this.jobPostings = response;
     this.noJobsFound = this.jobPostings.length === 0;
+    this.hasMore = this.jobPostings.length > 0;
   }
 
   private handleSearchError(error: any): void {

@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Header Section -->
   <div class="header">
-    <h1>Welcome to JobFinder</h1>
+    <h1>Welcome to CAREERIFY</h1>
     <p>Find your dream job with us today!</p>
   </div>
 
@@ -9,46 +9,69 @@
   <section class="search-section">
     <mat-card>
       <mat-card-content>
-        <form class="search-form">
-          <mat-form-field class="job-title">
-            <mat-label>Job Title</mat-label>
-            <input matInput #searchInput />
-          </mat-form-field>
-          <mat-form-field class="salary">
-            <mat-label>Minimum Salary</mat-label>
-            <input matInput type="number" #salaryInput />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Post Date</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker"
-              [(ngModel)]="postDate"
-              name="postDate"
-              #postDateInput
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+        <form [formGroup]="form" class="search-form">
+          <div class="search-inputs">
+            <!-- Job Title -->
+            <mat-form-field class="job-title">
+              <mat-label>Job Title</mat-label>
+              <input matInput formControlName="keyword" />
+            </mat-form-field>
 
-          <button
-            mat-flat-button
-            color="primary"
-            class="search-button"
-            type="button"
-            (click)="
-              searchJobPostings(
-                searchInput.value,
-                salaryInput.value,
-                postDateInput.value
-              )
-            "
-          >
-            Search
-          </button>
+            <!-- Search Button -->
+            <button
+              mat-flat-button
+              color="primary"
+              class="search-button"
+              type="button"
+              (click)="searchJobPostings()"
+            >
+              Search
+            </button>
+          </div>
+
+          <!-- Other Filters -->
+          <div class="filter-fields">
+            <!-- Minimum Salary Dropdown -->
+            <mat-form-field class="salary">
+              <mat-label>Minimum Salary</mat-label>
+              <mat-select formControlName="selectedSalary">
+                <mat-option
+                  *ngFor="let salary of salaryOptions"
+                  [value]="salary"
+                >
+                  ${{ salary }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Post Date -->
+            <mat-form-field>
+              <mat-label>Post Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="postDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- Category Dropdown -->
+            <mat-form-field>
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="selectedCategory">
+                <mat-option
+                  *ngFor="let category of categories"
+                  [value]="category"
+                >
+                  {{ category }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </form>
       </mat-card-content>
     </mat-card>
@@ -86,7 +109,7 @@
           </div>
         </div>
         <div class="footer">
-          <span class="salary">${{ job.salary }}/year</span>
+          <span class="salary">${{ job.salary }}/month</span>
           <div class="actions">
             <button
               *ngIf="!hasApplied(job)"

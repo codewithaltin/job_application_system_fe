@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiBaseService } from './api/api-base.service';
 import { JobPosting } from '../components/home/models/job-posting';
+import { JobCategory } from '../enums/enums';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -30,22 +32,28 @@ export class JobPostingService extends ApiBaseService {
     return this.delete<any>(`${this.endpoint}/${id}`);
   }
 
-  searchJobPostingsByTitle(keyword: string): Observable<JobPosting[]> {
-    return this.get<JobPosting[]>(
-      `${this.endpoint}/bytitle?keyword=${keyword}`
-    );
-  }
+  searchJobPostingsByFilters(filters: {
+    title?: string;
+    salary?: number;
+    postDate?: string;
+    category?: JobCategory;
+  }): Observable<JobPosting[]> {
+    let params = new HttpParams();
 
-  searchJobPostingsBySalary(salary: number): Observable<JobPosting[]> {
-    return this.get<JobPosting[]>(`${this.endpoint}/bysalary?salary=${salary}`);
-  }
+    if (filters.title) {
+      params = params.set('title', filters.title);
+    }
+    if (filters.salary != null) {
+      params = params.set('salary', filters.salary.toString());
+    }
+    if (filters.postDate) {
+      params = params.set('postDate', filters.postDate);
+    }
+    if (filters.category) {
+      params = params.set('category', filters.category);
+    }
 
-  searchJobPostingsByPostDate(
-    postDate: string | null
-  ): Observable<JobPosting[]> {
-    return this.get<JobPosting[]>(
-      `${this.endpoint}/bypostdate?postDate=${postDate}`
-    );
+    return this.get<JobPosting[]>(`${this.endpoint}/search`, { params });
   }
 
   applyForAJob(jobPostingId: number): Observable<any> {

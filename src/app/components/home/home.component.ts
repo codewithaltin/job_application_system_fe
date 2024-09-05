@@ -8,11 +8,12 @@ import { NotificationService } from '../../services/notification.service';
 import { DatePipe } from '@angular/common';
 import { JobCategory } from '../../enums/enums';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ContactUsComponent } from '../contact-us/contact-us.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SharedModule, MatProgressSpinnerModule],
+  imports: [SharedModule, MatProgressSpinnerModule, ContactUsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   providers: [DatePipe],
@@ -42,7 +43,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.loggedInUserId = this.authService.getUserIdFromToken();
+    const decodedToken = this.authService.getDecodedToken();
+    if (decodedToken) {
+      this.loggedInUserId = decodedToken.userId;
+    }
     this.loadJobPostings();
     this.subscribeToFilterChanges();
   }

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { NotificationService } from '../../services/notification.service';
 import { AuthService } from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -46,13 +47,10 @@ export class RegisterComponent implements OnInit {
       this.authService.signUp(this.registerForm.value).subscribe({
         next: (response) => {
           this.notificationService.show('Registration successful');
-          this.router.navigate(['/login']); // Redirect to login page
+          this.router.navigate(['/login']);
         },
         error: (error) => {
-          console.error('Registration failed', error);
-          this.notificationService.show(
-            'Registration failed. Please try again.'
-          );
+          this.notificationService.show(error);
         },
       });
     }

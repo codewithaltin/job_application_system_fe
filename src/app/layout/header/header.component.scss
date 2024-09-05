@@ -1,3 +1,27 @@
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  color: white;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .spacer {
-  flex: 1;
+  flex: 1 1 auto;
+}
+
+.logout-button mat-icon {
+  color: red;
+}
+
+button[mat-icon-button] {
+  color: white;
+}
+
+button[mat-icon-button]:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

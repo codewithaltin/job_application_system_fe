@@ -1,40 +1,34 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, MatMenuModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  isAuthenticated = false;
-  private authSubscription!: Subscription;
+  isAuthenticated$: Observable<boolean>;
+  role: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit(): void {
-    this.authSubscription = this.authService.authState$.subscribe(
-      (isAuthenticated) => {
-        this.isAuthenticated = isAuthenticated;
-      }
-    );
+  constructor(private authService: AuthService, private router: Router) {
+    this.isAuthenticated$ = this.authService.authState$;
   }
 
-  ngOnDestroy(): void {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
+  ngOnInit(): void {
+    this.authService.authState$.subscribe((isAuthenticated) => {
+      if (isAuthenticated) {
+        const decodedToken = this.authService.getDecodedToken();
+        if (decodedToken) {
+          this.role = decodedToken.role;
+        }
+      }
+    });
   }
 
   logout(): void {

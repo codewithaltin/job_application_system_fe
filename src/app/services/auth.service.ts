@@ -33,11 +33,10 @@ export class AuthService extends ApiBaseService {
     return this.getToken() !== null;
   }
 
-  getUserIdFromToken(): string | null {
+  getDecodedToken(): any | null {
     const token = this.getToken();
     if (token) {
-      const decodedToken: any = jwtDecode(token);
-      return decodedToken.userId;
+      return jwtDecode(token);
     }
     return null;
   }

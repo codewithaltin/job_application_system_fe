@@ -78,8 +78,11 @@
   </section>
 
   <!-- Job Listings Section -->
-  <section class="job-listings">
-    <div *ngIf="noJobsFound" class="no-jobs-found">
+  <section class="job-listings min-h-lvh">
+    <div
+      *ngIf="noJobsFound"
+      class="no-jobs-found text-2xl font-bold text-center"
+    >
       <p>No jobs found!</p>
     </div>
     <div *ngFor="let job of jobPostings" class="job-card">

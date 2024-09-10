@@ -1,0 +1,124 @@
+<!-- Profile Page Layout -->
+<div class="container mx-auto p-8 max-w-5xl bg-gray-100">
+  <div
+    class="bg-white shadow-lg rounded-lg p-8 ring-1 ring-gray-200 mt-[-4rem] relative z-10"
+  >
+    <!-- Profile Header -->
+    <app-profile-template [userId]="userId"></app-profile-template>
+
+    <!-- Angular Material Tabs -->
+    <mat-tab-group>
+      <mat-tab label="Education">
+        <!-- Education Section -->
+        <div class="border-t border-gray-300 pt-6">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-800">Education</h2>
+          <button
+            mat-button
+            class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transform transition-transform hover:scale-105 mb-6"
+            (click)="openAddEducationDialog()"
+          >
+            Add Education
+          </button>
+
+          <ul class="space-y-6">
+            <li
+              *ngFor="let education of educationData"
+              class="p-6 bg-gray-50 border border-gray-200 rounded-lg shadow-md transform transition-transform hover:scale-102"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <p class="font-semibold text-lg text-gray-800">
+                  {{ education.school }} - {{ education.fieldOfStudy }}
+                </p>
+                <button
+                  mat-button
+                  color="warn"
+                  class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg shadow-md"
+                  (click)="deleteEducation(education.id)"
+                >
+                  Delete
+                </button>
+              </div>
+              <p class="text-sm text-gray-600">
+                ({{ education.startDate | date : "mediumDate" }} -
+                {{ education.endDate | date : "mediumDate" }})
+              </p>
+              <p class="text-sm text-gray-600">{{ education.location }}</p>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+      <mat-tab label="Experience">
+        <!-- Experience Section -->
+        <div class="border-t border-gray-300 pt-6">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-800">Experience</h2>
+          <button
+            mat-button
+            class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transform transition-transform hover:scale-105 mb-6"
+            (click)="openAddExperienceDialog()"
+          >
+            Add Experience
+          </button>
+
+          <ul class="space-y-6">
+            <li
+              *ngFor="let experience of experienceData"
+              class="p-6 bg-gray-50 border border-gray-200 rounded-lg shadow-md transform transition-transform hover:scale-102"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <p class="font-semibold text-lg text-gray-800">
+                  {{ experience.company }} - {{ experience.title }}
+                </p>
+                <button
+                  mat-button
+                  color="warn"
+                  class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg shadow-md"
+                  (click)="deleteExperience(experience.id)"
+                >
+                  Delete
+                </button>
+              </div>
+              <p class="text-sm text-gray-600">
+                ({{ experience.startDate | date : "mediumDate" }} -
+                {{ experience.endDate | date : "mediumDate" }})
+              </p>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+      <mat-tab label="Skills">
+        <!-- Skills Section -->
+        <div class="border-t border-gray-300 pt-6">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-800">Skills</h2>
+          <button
+            mat-button
+            class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transform transition-transform hover:scale-105 mb-6"
+            (click)="openAddSkillDialog()"
+          >
+            Add Skill
+          </button>
+
+          <ul class="space-y-6">
+            <li
+              *ngFor="let skill of skillsData"
+              class="p-6 bg-gray-50 border border-gray-200 rounded-lg shadow-md transform transition-transform hover:scale-102"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <p class="font-semibold text-lg text-gray-800">
+                  {{ skill.name }}
+                </p>
+                <button
+                  mat-button
+                  color="warn"
+                  class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg shadow-md"
+                  (click)="deleteSkill(skill.id)"
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

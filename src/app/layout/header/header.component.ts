@@ -14,7 +14,8 @@ import { MatMenuModule } from '@angular/material/menu';
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated$: Observable<boolean>;
-  role: string | null = null;
+  role!: string;
+  userId!: string;
 
   constructor(private authService: AuthService, private router: Router) {
     this.isAuthenticated$ = this.authService.authState$;
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
         const decodedToken = this.authService.getDecodedToken();
         if (decodedToken) {
           this.role = decodedToken.role;
+          this.userId = decodedToken.userId;
         }
       }
     });

@@ -31,7 +31,14 @@
     </button>
 
     <mat-menu #profileMenu="matMenu">
-      <button mat-menu-item [routerLink]="'/profile'">
+      <button
+        mat-menu-item
+        [routerLink]="[
+          '/profile',
+          role === 'APPLICANT' ? 'applicant' : 'employer',
+          userId
+        ]"
+      >
         <mat-icon>account_circle</mat-icon>
         <span>Profile</span>
       </button>

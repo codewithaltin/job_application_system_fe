@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
+  HttpEvent,
   HttpParams,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -28,12 +29,18 @@ export class ApiBaseService {
       .pipe(catchError(this.handleError));
   }
 
-  put<T>(endpoint: string, body: any): Observable<T> {
+  put<T>(
+    endpoint: string,
+    body: any,
+    options: any = {}
+  ): Observable<HttpEvent<T>> {
     return this.httpClient
-      .put<T>(`${this.apiUrl}/${endpoint}`, body)
+      .put<T>(`${this.apiUrl}/${endpoint}`, body, {
+        ...options,
+        observe: 'response', // Use 'response' to get the full HttpEvent
+      })
       .pipe(catchError(this.handleError));
   }
-
   delete<T>(endpoint: string): Observable<T> {
     return this.httpClient
       .delete<T>(`${this.apiUrl}/${endpoint}`)
@@ -45,6 +52,7 @@ export class ApiBaseService {
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Error: ${error.error.message}`;
     } else {
+      ``;
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(() => new Error(errorMessage));

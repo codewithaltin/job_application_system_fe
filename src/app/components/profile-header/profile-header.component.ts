@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { ProfileService } from '../../services/api/profile.service';
 import { NotificationService } from '../../services/notification.service';
+import { UpdateProfileDialogComponent } from './update-profile-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile-template',
@@ -25,6 +27,7 @@ import { NotificationService } from '../../services/notification.service';
             mat-button
             color="primary"
             class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600"
+            (click)="openUpdateDialog()"
           >
             Edit Profile
           </button>
@@ -142,6 +145,7 @@ import { NotificationService } from '../../services/notification.service';
 export class ProfileTemplateComponent implements OnInit {
   @Input() userId!: string;
   profileData: any;
+  private dialog = inject(MatDialog);
 
   constructor(
     private profileService: ProfileService,
@@ -161,6 +165,21 @@ export class ProfileTemplateComponent implements OnInit {
         this.notificationService.show('Failed to load profile.', 'Close', 5000);
         console.error('Error loading profile:', error);
       },
+    });
+  }
+  openUpdateDialog(): void {
+    const dialogRef = this.dialog.open(UpdateProfileDialogComponent, {
+      data: {
+        userId: this.userId,
+        profileData: this.profileData,
+      },
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadProfile();
+      }
     });
   }
 }

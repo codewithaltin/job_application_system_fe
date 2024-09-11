@@ -41,6 +41,10 @@ export class AuthService extends ApiBaseService {
     return null;
   }
 
+  getUserById(userId: string): Observable<any> {
+    return this.get(`users/${userId}`);
+  }
+
   logout(): void {
     sessionStorage.removeItem('jwt_token');
     this.authStateSubject.next(false);

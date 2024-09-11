@@ -4,5 +4,13 @@
     class="bg-white shadow-lg rounded-lg p-8 ring-1 ring-gray-200 mt-[-4rem] relative z-10"
   >
     <app-profile-template [userId]="userId"></app-profile-template>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openAddJobPostingDialog()"
+    >
+      Create a Job Posting
+    </button>
   </div>
 </div>

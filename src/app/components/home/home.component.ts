@@ -25,13 +25,14 @@ export class HomeComponent implements OnInit {
   noJobsFound = false;
 
   form!: FormGroup;
-
+  userDetails: any;
   private page = 0;
   private readonly size = 5;
-  private loggedInUserId: string | null = null;
+  private loggedInUserId!: string;
 
   categories = Object.values(JobCategory);
   salaryOptions = [1000, 3000, 5000, 8000, 10000];
+  loggedInUserRole: any;
 
   constructor(
     private fb: FormBuilder,
@@ -46,9 +47,22 @@ export class HomeComponent implements OnInit {
     const decodedToken = this.authService.getDecodedToken();
     if (decodedToken) {
       this.loggedInUserId = decodedToken.userId;
+      this.loggedInUserRole = decodedToken.role;
     }
     this.loadJobPostings();
     this.subscribeToFilterChanges();
+    this.getUserDetails(this.loggedInUserId);
+  }
+  getUserDetails(loggedInUserId: string) {
+    this.authService.getUserById(loggedInUserId).subscribe({
+      next: (response) => {
+        this.userDetails = response;
+      },
+      error: (error) => {
+        console.error('Error getting user details:', error);
+        this.notificationService.show('Error getting user details');
+      },
+    });
   }
 
   initForm(): void {

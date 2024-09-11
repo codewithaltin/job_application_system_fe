@@ -5,9 +5,7 @@ export interface JobPosting {
   title: string;
   description: string;
   salary: number;
-  employer: {
-    name: string;
-  } | null;
+  user: string;
   applications: Application[];
   postDate: string;
   endDate: string;

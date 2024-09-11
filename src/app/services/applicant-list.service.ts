@@ -17,9 +17,9 @@ export class ApplicantListService extends ApiBaseService {
     return this.post<Applicant>(this.endpoint, applicant);
   }
 
-  updateApplicant(applicant: Applicant): Observable<Applicant> {
-    return this.put<Applicant>(`${this.endpoint}/${applicant.id}`, applicant);
-  }
+  // updateApplicant(applicant: Applicant): Observable<Applicant> {
+  //   return this.put<Applicant>(`${this.endpoint}/${applicant.id}`, applicant);
+  // }
 
   deleteApplicant(applicantId: string): Observable<void> {
     return this.delete<void>(`${this.endpoint}/${applicantId}`);

@@ -55,4 +55,10 @@ export class ProfileService extends ApiBaseService {
   deleteSkill(skillId: string): Observable<any> {
     return this.delete<any>(`skills/${skillId}`);
   }
+
+  updateProfile(userId: string, profileData: any): Observable<any> {
+    return this.put<any>(`users/${userId}`, profileData, {
+      responseType: 'text',
+    });
+  }
 }

@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '../../services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProfileTemplateComponent } from '../profile-header/profile-header.component';
+import { AddJobPostingDialogComponent } from '../job-posting/add-job-posting-dialog.component';
 @Component({
   selector: 'app-employer-profile',
   standalone: true,
@@ -44,6 +45,19 @@ export class EmployerProfileComponent {
         this.notificationService.show('Failed to load profile.', 'Close', 5000);
         console.error('Error loading profile:', error);
       },
+    });
+  }
+
+  openAddJobPostingDialog(): void {
+    const dialogRef = this.dialog.open(AddJobPostingDialogComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Handle post-creation actions, if necessary
+        this.loadProfile();
+      }
     });
   }
 }

@@ -44,11 +44,13 @@ export class ApplicantProfileComponent implements OnInit {
   private dialog = inject(MatDialog);
   private notificationService = inject(NotificationService);
   private activatedRoute = inject(ActivatedRoute);
+  decodedUserId: any;
 
   ngOnInit(): void {
     const decodedToken = this.authService.getDecodedToken();
     if (decodedToken) {
       this.userRole = decodedToken.role;
+      this.decodedUserId = decodedToken.userId;
     }
     this.activatedRoute.paramMap.subscribe((params) => {
       this.userId = params.get('id') || '';
@@ -73,7 +75,7 @@ export class ApplicantProfileComponent implements OnInit {
     this.profileService.getSkillsByUser(this.userId).subscribe({
       next: (data) => {
         this.skillsData = data;
-        console.log('Skills data:', this.skillsData); // Debugging line
+        console.log('Skills data:', this.skillsData);
       },
       error: (error) => {
         this.notificationService.show('Failed to load skills.', 'Close', 5000);
@@ -86,7 +88,7 @@ export class ApplicantProfileComponent implements OnInit {
     this.profileService.getEducationByUser(this.userId).subscribe({
       next: (data) => {
         this.educationData = data;
-        console.log('Education data:', this.educationData); // Debugging line
+        console.log('Education data:', this.educationData);
       },
       error: (error) => {
         this.notificationService.show(

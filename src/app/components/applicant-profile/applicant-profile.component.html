@@ -4,7 +4,10 @@
     class="bg-white shadow-lg rounded-lg p-8 ring-1 ring-gray-200 mt-[-4rem] relative z-10"
   >
     <!-- Profile Header -->
-    <app-profile-template [userId]="userId"></app-profile-template>
+    <app-profile-template
+      [userId]="userId"
+      [decodedUserId]="decodedUserId"
+    ></app-profile-template>
 
     <!-- Angular Material Tabs -->
     <mat-tab-group>
@@ -13,6 +16,7 @@
         <div class="border-t border-gray-300 pt-6">
           <h2 class="text-2xl font-semibold mb-4 text-gray-800">Education</h2>
           <button
+            *ngIf="decodedUserId === userId"
             mat-button
             class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transform transition-transform hover:scale-105 mb-6"
             (click)="openAddEducationDialog()"
@@ -30,6 +34,7 @@
                   {{ education.school }} - {{ education.fieldOfStudy }}
                 </p>
                 <button
+                  *ngIf="decodedUserId === userId"
                   mat-button
                   color="warn"
                   class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg shadow-md"
@@ -52,6 +57,7 @@
         <div class="border-t border-gray-300 pt-6">
           <h2 class="text-2xl font-semibold mb-4 text-gray-800">Experience</h2>
           <button
+            *ngIf="decodedUserId === userId"
             mat-button
             class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transform transition-transform hover:scale-105 mb-6"
             (click)="openAddExperienceDialog()"
@@ -69,6 +75,7 @@
                   {{ experience.company }} - {{ experience.title }}
                 </p>
                 <button
+                  *ngIf="decodedUserId === userId"
                   mat-button
                   color="warn"
                   class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg shadow-md"
@@ -78,8 +85,12 @@
                 </button>
               </div>
               <p class="text-sm text-gray-600">
-                ({{ experience.startDate | date : "mediumDate" }} -
-                {{ experience.endDate | date : "mediumDate" }})
+                <span *ngIf="!experience?.endDate"
+                  >{{ experience?.startDate }} - Present</span
+                >
+                <span *ngIf="experience?.endDate"
+                  >{{ experience?.startDate }} - {{ experience?.endDate }}</span
+                >
               </p>
             </li>
           </ul>
@@ -90,6 +101,7 @@
         <div class="border-t border-gray-300 pt-6">
           <h2 class="text-2xl font-semibold mb-4 text-gray-800">Skills</h2>
           <button
+            *ngIf="decodedUserId === userId"
             mat-button
             class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transform transition-transform hover:scale-105 mb-6"
             (click)="openAddSkillDialog()"
@@ -107,6 +119,7 @@
                   {{ skill.name }}
                 </p>
                 <button
+                  *ngIf="decodedUserId === userId"
                   mat-button
                   color="warn"
                   class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg shadow-md"

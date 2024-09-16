@@ -10,17 +10,18 @@ import { Router } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { NotificationService } from '../../services/notification.service';
 import { AuthService } from '../../services/auth.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [SharedModule, ReactiveFormsModule, CommonModule],
+  imports: [SharedModule, ReactiveFormsModule, CommonModule, MatTabsModule],
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  isUserRole: boolean = true; // Default to 'APPLICANT'
 
   constructor(
     private fb: FormBuilder,
@@ -35,17 +36,44 @@ export class RegisterComponent implements OnInit {
 
   private initializeForm(): void {
     this.registerForm = this.fb.group({
+      role: ['APPLICANT', Validators.required],
       firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      lastName: [''],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+
+    this.onRoleChange({ index: 0 });
+  }
+
+  // Method to handle role changes
+  onRoleChange(event: any): void {
+    this.isUserRole = event.index === 0;
+
+    const firstNameControl = this.registerForm.get('firstName');
+    const lastNameControl = this.registerForm.get('lastName');
+
+    if (this.isUserRole) {
+      firstNameControl?.setValidators([Validators.required]);
+      lastNameControl?.setValidators([Validators.required]);
+    } else {
+      firstNameControl?.setValidators([Validators.required]);
+      lastNameControl?.setValue('');
+      lastNameControl?.setValidators(null);
+    }
+
+    firstNameControl?.updateValueAndValidity();
+    lastNameControl?.updateValueAndValidity();
   }
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      this.authService.signUp(this.registerForm.value).subscribe({
-        next: (response) => {
+      const formValue = this.registerForm.value;
+
+      formValue.role = this.isUserRole ? 'APPLICANT' : 'EMPLOYER';
+
+      this.authService.signUp(formValue).subscribe({
+        next: () => {
           this.notificationService.show('Registration successful');
           this.router.navigate(['/login']);
         },

@@ -56,6 +56,10 @@ export class ProfileService extends ApiBaseService {
     return this.delete<any>(`skills/${skillId}`);
   }
 
+  getApplicantById(id: string): Observable<any> {
+    return this.get<any>(`users/${id}`);
+  }
+
   updateProfile(userId: string, profileData: any): Observable<any> {
     return this.put<any>(`users/${userId}`, profileData, {
       responseType: 'text',

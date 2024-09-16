@@ -15,6 +15,14 @@ export class JobPostingService extends ApiBaseService {
   getAllJobPostings(page: number = 0, size: number = 10): Observable<any> {
     return this.get<any>(`${this.endpoint}?page=${page}&size=${size}`);
   }
+  getAllJobPostingsByCurrentEmployer(
+    page: number = 0,
+    size: number = 10
+  ): Observable<any> {
+    return this.get<any>(
+      `${this.endpoint}/employer-job-listings?page=${page}&size=${size}`
+    );
+  }
 
   getJobPostingById(id: number): Observable<JobPosting> {
     return this.get<JobPosting>(`${this.endpoint}/${id}`);

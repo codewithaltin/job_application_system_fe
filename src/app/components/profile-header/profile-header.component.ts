@@ -10,55 +10,62 @@ import { MatDialog } from '@angular/material/dialog';
   standalone: true,
   imports: [SharedModule],
   template: `
-    <!-- Profile Header -->
-    <div class="flex items-center mb-8">
-      <div
-        class="w-36 h-36 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center text-6xl font-bold text-gray-600 border-4 border-white shadow-lg"
-      >
-        {{ profileData?.firstName[0] }}{{ profileData?.lastName[0] }}
-      </div>
-      <div class="ml-8">
-        <h1 class="text-4xl font-extrabold text-gray-900">
-          {{ profileData?.firstName }} {{ profileData?.lastName }}
-        </h1>
-        <p class="text-lg text-gray-700">{{ profileData?.title }}</p>
-        <div class="mt-4">
-          <button
-            mat-button
-            color="primary"
-            class="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600"
-            (click)="openUpdateDialog()"
-          >
-            Edit Profile
-          </button>
+    <div class="profile-container">
+      <div class="profile-header">
+        <div class="profile-initials">
+          {{ profileData?.firstName[0] }}{{ profileData?.lastName[0] }}
+        </div>
+        <div class="profile-info">
+          <h1 class="profile-name">
+            {{ profileData?.firstName }} {{ profileData?.lastName }}
+          </h1>
+          <p class="profile-title">{{ profileData?.title }}</p>
+          <div class="profile-actions">
+            <button
+              *ngIf="userId === decodedUserId"
+              mat-button
+              color="primary"
+              class="edit-button"
+              (click)="openUpdateDialog()"
+            >
+              Edit Profile
+            </button>
+            <button
+              *ngIf="userId !== decodedUserId"
+              mat-button
+              color="primary"
+              class="edit-button"
+              (click)="sendEmail(profileData.email)"
+            >
+              Send Email
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Profile Details -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <div class="p-6 bg-gray-50 border border-gray-200 rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
-          Profile Details
-        </h2>
-        <div class="space-y-4">
-          <div class="flex justify-start gap-2">
-            <span class="font-semibold text-gray-600">Full name:</span>
-            <span class="text-gray-800">
-              {{ profileData?.firstName }} {{ profileData?.lastName }}
-            </span>
-          </div>
-          <div class="flex justify-between">
-            <span class="font-semibold text-gray-600">Email:</span>
-            <span class="text-gray-800">{{ profileData?.email }}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="font-semibold text-gray-600">Phone:</span>
-            <span class="text-gray-800">{{ profileData?.phone }}</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="font-semibold text-gray-600">Location:</span>
-            <span class="text-gray-800">{{ profileData?.location }}</span>
+      <!-- Profile Details -->
+      <div class="profile-details-container">
+        <div class="profile-details">
+          <h2 class="profile-details-header">Profile Details</h2>
+          <div class="details-content">
+            <div class="details-row">
+              <span class="label">Full name:</span>
+              <span class="value"
+                >{{ profileData?.firstName }} {{ profileData?.lastName }}</span
+              >
+            </div>
+            <div class="details-row">
+              <span class="label">Email:</span>
+              <span class="value">{{ profileData?.email }}</span>
+            </div>
+            <div class="details-row">
+              <span class="label">Phone:</span>
+              <span class="value">{{ profileData?.phone }}</span>
+            </div>
+            <div class="details-row">
+              <span class="label">Location:</span>
+              <span class="value">{{ profileData?.location }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -67,83 +74,114 @@ import { MatDialog } from '@angular/material/dialog';
   styles: [
     `
       .profile-container {
-        padding: 16px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-      }
-      .profile-header {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 2rem;
         margin-bottom: 2rem;
-      }
-      .profile-picture {
-        width: 9rem;
-        height: 9rem;
-        background-color: #e2e8f0;
-        border-radius: 9999px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        font-weight: bold;
-        color: #4a5568;
-        border: 4px solid #fff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-      .profile-header-info {
-        margin-left: 2rem;
-      }
-      .profile-header-info h1 {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #1a202c;
-      }
-      .profile-header-info p {
-        font-size: 1.125rem;
-        color: #4a5568;
-      }
-      .edit-button {
-        background-color: #3182ce;
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.2s;
-      }
-      .edit-button:hover {
-        background-color: #2b6cb0;
-      }
-      .profile-details {
-        padding: 1.5rem;
-        background-color: #f7fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-      .profile-details h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #2d3748;
-        margin-bottom: 1rem;
-      }
-      .profile-details .flex {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.5rem;
-      }
-      .profile-details .font-semibold {
-        font-weight: 600;
-        color: #4a5568;
-      }
-      .profile-details .text-gray-800 {
-        color: #2d3748;
+
+        .profile-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 2rem;
+
+          .profile-initials {
+            width: 9rem;
+            height: 9rem;
+            background-color: #e2e8f0; // gray-200
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.75rem; // 6xl
+            font-weight: bold;
+            color: #4b5563; // gray-600
+            border: 4px solid white;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); // shadow-lg
+          }
+
+          .profile-info {
+            margin-left: 2rem;
+
+            .profile-name {
+              font-size: 2.25rem; // 4xl
+              font-weight: 800; // extrabold
+              color: #1f2937; // gray-900
+            }
+
+            .profile-title {
+              font-size: 1.125rem; // lg
+              color: #374151; // gray-700
+            }
+
+            .profile-actions {
+              margin-top: 1rem;
+
+              .edit-button {
+                background-color: #3b82f6; // blue-500
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); // shadow-md
+                transition: background-color 0.2s ease-in-out;
+
+                &:hover {
+                  background-color: #2563eb; // blue-600
+                }
+              }
+            }
+          }
+        }
+
+        .profile-details-container {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+
+          @media (min-width: 768px) {
+            grid-template-columns: 1fr 1fr; // md:grid-cols-2
+          }
+
+          .profile-details {
+            padding: 1.5rem;
+            background-color: #f9fafb; // gray-50
+            border: 1px solid #e5e7eb; // gray-200
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05); // shadow-md
+
+            .profile-details-header {
+              font-size: 1.5rem; // 2xl
+              font-weight: 600;
+              margin-bottom: 1rem;
+              color: #1f2937; // gray-800
+            }
+
+            .details-content {
+              .details-row {
+                display: flex;
+                justify-content: space-between;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+
+                .label {
+                  font-weight: 600;
+                  color: #4b5563; // gray-600
+                }
+
+                .value {
+                  color: #1f2937; // gray-800
+                }
+              }
+            }
+          }
+        }
       }
     `,
   ],
 })
 export class ProfileTemplateComponent implements OnInit {
   @Input() userId!: string;
+  @Input() decodedUserId!: string;
   profileData: any;
   private dialog = inject(MatDialog);
 
@@ -181,5 +219,9 @@ export class ProfileTemplateComponent implements OnInit {
         this.loadProfile();
       }
     });
+  }
+
+  sendEmail(email: string): void {
+    window.location.href = `mailto:${email}`;
   }
 }

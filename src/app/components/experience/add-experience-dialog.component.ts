@@ -6,8 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NotificationService } from '../../services/notification.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -58,15 +59,19 @@ import { ProfileService } from '../../services/api/profile.service';
           matInput
           [matDatepicker]="endDatePicker"
           formControlName="endDate"
-          required
         />
         <mat-datepicker-toggle
           matSuffix
           [for]="endDatePicker"
         ></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
-        <mat-error> End Date is required </mat-error>
+        <mat-error *ngIf="experienceForm.get('endDate')?.hasError('required')">
+          End Date is required
+        </mat-error>
       </mat-form-field>
+
+      <!-- Checkbox for "Present" -->
+      <mat-checkbox formControlName="isPresent">Present</mat-checkbox>
 
       <div class="dialog-actions">
         <button mat-button type="submit" color="primary">Add</button>
@@ -88,7 +93,7 @@ import { ProfileService } from '../../services/api/profile.service';
       }
     `,
   ],
-  imports: [SharedModule],
+  imports: [SharedModule, MatCheckboxModule],
 })
 export class AddExperienceDialogComponent {
   experienceForm: FormGroup;
@@ -103,8 +108,26 @@ export class AddExperienceDialogComponent {
       title: ['', Validators.required],
       company: ['', Validators.required],
       startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
+      endDate: [{ value: '', disabled: false }],
+      isPresent: [false],
     });
+  }
+
+  ngOnInit() {
+    this.experienceForm
+      .get('isPresent')
+      ?.valueChanges.subscribe((isPresent: boolean) => {
+        const endDateControl = this.experienceForm.get('endDate');
+        if (isPresent) {
+          endDateControl?.disable();
+          endDateControl?.clearValidators();
+          endDateControl?.reset();
+        } else {
+          endDateControl?.enable();
+          endDateControl?.setValidators(Validators.required);
+        }
+        endDateControl?.updateValueAndValidity();
+      });
   }
 
   onSubmit(): void {

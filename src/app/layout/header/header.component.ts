@@ -1,23 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { WebSocketService } from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [SharedModule, MatMenuModule],
+  imports: [
+    SharedModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated$: Observable<boolean>;
   role!: string;
   userId!: string;
+  unreadNotifications: string[] = [];
+  menuOpen = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  @ViewChild(MatMenuTrigger) notificationMenuTrigger!: MatMenuTrigger;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private webSocketService: WebSocketService
+  ) {
     this.isAuthenticated$ = this.authService.authState$;
   }
 
@@ -31,6 +50,18 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+
+    this.webSocketService.notifications$.subscribe((notifications) => {
+      this.unreadNotifications = notifications;
+    });
+  }
+
+  openNotificationMenu(): void {
+    this.menuOpen = true; // Set menuOpen flag when the menu is opened
+  }
+
+  closeNotificationMenu(): void {
+    this.menuOpen = false; // Reset menuOpen flag when the menu is closed
   }
 
   logout(): void {

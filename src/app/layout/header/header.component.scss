@@ -25,3 +25,61 @@ button[mat-icon-button] {
 button[mat-icon-button]:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-icon {
+  position: relative;
+}
+
+mat-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+}
+
+/* Styles for the notification menu */
+.notification-menu {
+  min-width: 300px; /* Set width of the notification dropdown */
+}
+
+/* Styles for notification items */
+.notification-item {
+  display: flex;
+  align-items: center;
+}
+
+.notification-text {
+  margin-left: 10px; /* Spacing between icon and text */
+  font-weight: 500; /* Make the text bold */
+}
+
+/* Optional: Add some padding to your toolbar for better spacing */
+mat-toolbar {
+  padding: 0 16px;
+}
+
+/* Customize notification badge appearance */
+.mat-badge-content {
+  background-color: red; /* Badge background color */
+  color: white; /* Badge text color */
+}
+
+.notifications-indicator-visible {
+  border-radius: 50%;
+  position: relative;
+}
+
+.notifications-indicator-visible::after {
+  content: "";
+  position: absolute;
+  bottom: 30px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}

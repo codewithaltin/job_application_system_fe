@@ -4,6 +4,45 @@
   </button>
   <span class="spacer"></span>
 
+  <button
+    *ngIf="role === 'APPLICANT'"
+    mat-icon-button
+    [matMenuTriggerFor]="notificationMenu"
+    [matBadge]="unreadNotifications.length"
+    matBadgeColor="warn"
+    matBadgeHidden="unreadNotifications.length === 0"
+    [class.notifications-indicator-visible]="
+      unreadNotifications.length > 0 && !menuOpen
+    "
+    (matMenuOpened)="openNotificationMenu()"
+    (matMenuClosed)="closeNotificationMenu()"
+  >
+    <mat-icon>notifications</mat-icon>
+  </button>
+
+  <!-- Notification dropdown -->
+  <mat-menu #notificationMenu="matMenu" class="notification-menu">
+    <ng-container *ngIf="unreadNotifications.length > 0; else noNotifications">
+      <!-- Show each notification -->
+      <div *ngFor="let notification of unreadNotifications">
+        <button mat-menu-item class="notification-item">
+          <mat-icon color="primary">notifications</mat-icon>
+          <span class="notification-text">{{ notification }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <!-- Separate notifications visually -->
+      </div>
+    </ng-container>
+
+    <!-- No notifications message -->
+    <ng-template #noNotifications>
+      <button mat-menu-item>
+        <mat-icon color="disabled">notifications_off</mat-icon>
+        <span>No new notifications</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+
   <!-- Show Login and Register buttons if not authenticated -->
   <ng-container *ngIf="(isAuthenticated$ | async) === false">
     <button mat-button [routerLink]="'/login'" class="auth-button">

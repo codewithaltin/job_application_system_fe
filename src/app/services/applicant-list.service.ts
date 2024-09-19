@@ -7,7 +7,7 @@ import { Applicant } from '../components/applicants-list/models/applicant';
   providedIn: 'root',
 })
 export class ApplicantListService extends ApiBaseService {
-  private endpoint = 'applicants';
+  private endpoint = 'users';
 
   getApplicants(): Observable<Applicant[]> {
     return this.get<Applicant[]>(this.endpoint);

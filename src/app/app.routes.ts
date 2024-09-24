@@ -5,7 +5,6 @@ import { HomeComponent } from './components/home/home.component';
 import { ApplicantsListComponent } from './components/applicants-list/applicants-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { CreateJobListingComponent } from './components/create-job-listing/create-job-listing.component';
 import { authGuard } from './guards/auth.guard';
 import { EmployerProfileComponent } from './components/employer-profile/employer-profile.component';
 import { ApplicantProfileComponent } from './components/applicant-profile/applicant-profile.component';
@@ -22,7 +21,6 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
           { path: 'applicants-list', component: ApplicantsListComponent },
-          { path: 'create-job-listing', component: CreateJobListingComponent },
         ],
       },
       {

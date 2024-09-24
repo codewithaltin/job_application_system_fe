@@ -57,11 +57,11 @@ export class HeaderComponent implements OnInit {
   }
 
   openNotificationMenu(): void {
-    this.menuOpen = true; // Set menuOpen flag when the menu is opened
+    this.menuOpen = true;
   }
 
   closeNotificationMenu(): void {
-    this.menuOpen = false; // Reset menuOpen flag when the menu is closed
+    this.menuOpen = false;
   }
 
   logout(): void {

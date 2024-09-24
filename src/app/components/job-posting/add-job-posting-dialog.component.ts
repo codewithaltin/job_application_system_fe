@@ -2,15 +2,15 @@ import { Component, Inject, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '../../services/notification.service';
-import { ProfileService } from '../../services/api/profile.service';
 import { SharedModule } from '../../shared/shared.module';
 import { JobPosting } from '../home/models/job-posting';
 import { JobPostingService } from '../../services/job-posting.service';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-job-posting-dialog',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, MatNativeDateModule],
   template: `
     <form
       [formGroup]="jobPostingForm"
@@ -61,22 +61,6 @@ import { JobPostingService } from '../../services/job-posting.service';
       </div>
 
       <div class="form-row">
-        <mat-form-field class="form-field">
-          <mat-label>Post Date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="postDatePicker"
-            formControlName="postDate"
-            required
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="postDatePicker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #postDatePicker></mat-datepicker>
-          <mat-error> Post Date is required </mat-error>
-        </mat-form-field>
-
         <mat-form-field class="form-field">
           <mat-label>End Date</mat-label>
           <input
@@ -162,7 +146,7 @@ export class AddJobPostingDialogComponent {
       location: ['', Validators.required],
       category: ['', Validators.required],
       openPositions: [0, Validators.required],
-      postDate: ['', Validators.required],
+      postDate: [new Date(), Validators.required],
       endDate: ['', Validators.required],
     });
   }

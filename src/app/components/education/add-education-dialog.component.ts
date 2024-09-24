@@ -1,18 +1,9 @@
 import { Component, Inject, inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { NotificationService } from '../../services/notification.service';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { SharedModule } from '../../shared/shared.module';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ProfileService } from '../../services/api/profile.service';
+import { NotificationService } from '../../services/notification.service';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-add-education-dialog',

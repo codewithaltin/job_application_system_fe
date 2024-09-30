@@ -58,14 +58,6 @@ import { MatDialog } from '@angular/material/dialog';
               <span class="label">Email:</span>
               <span class="value">{{ profileData?.email }}</span>
             </div>
-            <div class="details-row">
-              <span class="label">Phone:</span>
-              <span class="value">{{ profileData?.phone }}</span>
-            </div>
-            <div class="details-row">
-              <span class="label">Location:</span>
-              <span class="value">{{ profileData?.location }}</span>
-            </div>
           </div>
         </div>
       </div>

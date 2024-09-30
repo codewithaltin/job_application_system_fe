@@ -8,6 +8,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { authGuard } from './guards/auth.guard';
 import { EmployerProfileComponent } from './components/employer-profile/employer-profile.component';
 import { ApplicantProfileComponent } from './components/applicant-profile/applicant-profile.component';
+import { ParentComponent } from './mbrojtja/parent/parent.component';
+import { ChildComponent } from './mbrojtja/child/child.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +23,14 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
           { path: 'applicants-list', component: ApplicantsListComponent },
+          {
+            path: 'parent',
+            component: ParentComponent,
+          },
+          {
+            path: 'child',
+            component: ChildComponent,
+          },
         ],
       },
       {

@@ -1,10 +1,23 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav mode="side" opened>
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard">Dashboard</a>
-      <a mat-list-item routerLink="/dashboard/applicants-list">Applicants</a>
-      <a mat-list-item routerLink="/dashboard/create-job-listing"
-        >Create a job listing</a
+      <a
+        mat-list-item
+        routerLink="/dashboard/applicants-list"
+        routerLinkActive="active-link"
+        >Applicants</a
+      >
+      <a
+        mat-list-item
+        routerLink="/dashboard/parent"
+        routerLinkActive="active-link"
+        >Parent</a
+      >
+      <a
+        mat-list-item
+        routerLink="/dashboard/child"
+        routerLinkActive="active-link"
+        >Child</a
       >
     </mat-nav-list>
   </mat-sidenav>
@@ -15,4 +28,3 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-B

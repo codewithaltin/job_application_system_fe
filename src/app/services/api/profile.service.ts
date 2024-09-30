@@ -61,8 +61,6 @@ export class ProfileService extends ApiBaseService {
   }
 
   updateProfile(userId: string, profileData: any): Observable<any> {
-    return this.put<any>(`users/${userId}`, profileData, {
-      responseType: 'text',
-    });
+    return this.put<any>(`users/${userId}`, profileData);
   }
 }

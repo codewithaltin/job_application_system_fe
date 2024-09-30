@@ -4,9 +4,10 @@ import {
   HttpErrorResponse,
   HttpEvent,
   HttpParams,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../enviroments/enviroment';
 
 @Injectable({
@@ -29,18 +30,10 @@ export class ApiBaseService {
       .pipe(catchError(this.handleError));
   }
 
-  put<T>(
-    endpoint: string,
-    body: any,
-    options: any = {}
-  ): Observable<HttpEvent<T>> {
-    return this.httpClient
-      .put<T>(`${this.apiUrl}/${endpoint}`, body, {
-        ...options,
-        observe: 'response', // Use 'response' to get the full HttpEvent
-      })
-      .pipe(catchError(this.handleError));
+  put<T>(endpoint: string, body: any): Observable<T> {
+    return this.httpClient.put<T>(`${this.apiUrl}/${endpoint}`, body);
   }
+
   delete<T>(endpoint: string): Observable<T> {
     return this.httpClient
       .delete<T>(`${this.apiUrl}/${endpoint}`)
@@ -49,12 +42,17 @@ export class ApiBaseService {
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
+
     if (error.error instanceof ErrorEvent) {
+      // Client-side error
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      ``;
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      // Server-side error
+      errorMessage = `Error Code: ${error.status || 'No status'}\nMessage: ${
+        error.message || 'No message'
+      }`;
     }
+
     return throwError(() => new Error(errorMessage));
   }
 }

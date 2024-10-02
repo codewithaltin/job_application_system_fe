@@ -51,7 +51,10 @@
   </table>
 
   <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons
-  ></mat-paginator>
+    [length]="parents.length"
+    [pageSize]="10"
+    [pageSizeOptions]="[15, 25, 100]"
+    aria-label="Select page"
+  >
+  </mat-paginator>
 </div>

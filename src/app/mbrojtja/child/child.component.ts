@@ -16,10 +16,9 @@ import { MatTab } from '@angular/material/tabs';
   templateUrl: './child.component.html',
 })
 export class ChildComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  children: MatTableDataSource<Child> = new MatTableDataSource<Child>([]);
+  children: Child[] = [];
   displayedColumns: string[] = ['name', 'description', 'parent', 'actions'];
+  filteredChildren: Child[] = [];
 
   constructor(
     private childService: ChildService,
@@ -33,8 +32,8 @@ export class ChildComponent implements OnInit {
 
   loadChildren(): void {
     this.childService.getAll().subscribe((children) => {
-      this.children = new MatTableDataSource(children || []);
-      this.children.paginator = this.paginator;
+      this.children = children;
+      this.filteredChildren = this.children.filter((child) => !child.deleted);
     });
   }
 
@@ -77,7 +76,14 @@ export class ChildComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.children.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredChildren = this.children.filter((child) => {
+      return (
+        child.name.toLowerCase().includes(filterValue) ||
+        child.description.toLowerCase().includes(filterValue) ||
+        (child.parent?.name &&
+          child.parent.name.toLowerCase().includes(filterValue))
+      );
+    });
   }
 }

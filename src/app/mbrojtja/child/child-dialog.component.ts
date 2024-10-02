@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Child } from './model/child-model';
 import { ParentService } from '../parent/service/parent.service';
-import { Observable } from 'rxjs';
 import { Parent } from '../parent/model/parent-model';
 import { SharedModule } from '../../shared/shared.module';
 
@@ -14,7 +13,6 @@ import { SharedModule } from '../../shared/shared.module';
   template: `
     <form [formGroup]="childForm" class="m-4 p-8 flex gap-4 flex-col">
       <h1 mat-dialog-title>{{ data.id ? 'Edit ' : 'Add ' }} Child</h1>
-
       <div>
         <mat-form-field>
           <mat-label>Name</mat-label>

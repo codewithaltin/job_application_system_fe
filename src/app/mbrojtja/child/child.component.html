@@ -1,5 +1,12 @@
 <div class="p-6">
   <div class="flex justify-between align-middle gap-4 my-2">
+    <mat-form-field class="py-4">
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Search children"
+      />
+    </mat-form-field>
     <button mat-raised-button color="primary" (click)="openDialog()">
       <span>Add</span>
     </button>

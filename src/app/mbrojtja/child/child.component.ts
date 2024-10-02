@@ -68,10 +68,16 @@ export class ChildComponent implements OnInit {
       this.loadChildren();
     });
   }
+
   softDelete(id: number): void {
     this.childService.softDelete(id).subscribe(() => {
       this.notificationService.show('Deleted successfully');
       this.loadChildren();
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.children.filter = filterValue.trim().toLowerCase();
   }
 }

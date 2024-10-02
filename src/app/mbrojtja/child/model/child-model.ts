@@ -4,6 +4,6 @@ export interface Child {
   id: number;
   name: string;
   description: string;
-  parent: Parent[];
+  parent: Parent;
   isDeleted: boolean;
 }

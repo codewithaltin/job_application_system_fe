@@ -30,7 +30,7 @@ import { SharedModule } from '../../shared/shared.module';
       <div>
         <mat-form-field>
           <mat-label>Select Parent</mat-label>
-          <mat-select formControlName="parent" required>
+          <mat-select formControlName="parent">
             <mat-option *ngFor="let parent of parents" [value]="parent.id">
               {{ parent.name }}
             </mat-option>
@@ -61,13 +61,12 @@ export class ChildDialogComponent {
     private fb: FormBuilder,
     private parentService: ParentService
   ) {
-    this.childForm = this.fb.group({
-      name: [data.name || '', Validators.required],
-      description: [data.description],
-      parent: [data.parent || '', Validators.required],
-    });
-
     this.loadParents();
+    this.childForm = this.fb.group({
+      name: [data?.name || '', Validators.required],
+      description: [data?.description || ''],
+      parent: [data.parent?.id || null, Validators.required],
+    });
   }
 
   loadParents(): void {

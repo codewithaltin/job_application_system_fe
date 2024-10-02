@@ -48,7 +48,7 @@ export class ParentDialogComponent {
   ) {
     this.parentForm = this.fb.group({
       name: [data.name || '', Validators.required],
-      description: [data.description],
+      description: [data.description || ''],
     });
   }
 

@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedModule } from '../../shared/shared.module';
 import { ChildDialogComponent } from './child-dialog.component';
 import { ChildService } from './service/child.service';
 import { NotificationService } from '../../services/notification.service';
 import { Child } from './model/child-model';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatTab } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-child',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, MatPaginatorModule],
   templateUrl: './child.component.html',
 })
 export class ChildComponent implements OnInit {
-  children: Child[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  children: MatTableDataSource<Child> = new MatTableDataSource<Child>([]);
   displayedColumns: string[] = ['name', 'description', 'parent', 'actions'];
 
   constructor(
@@ -28,7 +33,8 @@ export class ChildComponent implements OnInit {
 
   loadChildren(): void {
     this.childService.getAll().subscribe((children) => {
-      this.children = children || [];
+      this.children = new MatTableDataSource(children || []);
+      this.children.paginator = this.paginator;
     });
   }
 

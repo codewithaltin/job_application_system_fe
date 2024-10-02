@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedModule } from '../../shared/shared.module';
 import { ParentDialogComponent } from './parent-dialog.component';
 import { Parent } from './model/parent-model';
 import { ParentService } from './service/parent.service';
 import { NotificationService } from '../../services/notification.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-parent',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, MatPaginatorModule],
   templateUrl: './parent.component.html',
 })
 export class ParentComponent implements OnInit {
-  parents: Parent[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  parents: MatTableDataSource<Parent> = new MatTableDataSource<Parent>([]);
   displayedColumns: string[] = ['name', 'description', 'actions']; //NDRROJ KTO KOLONA SIPAS MODELIT TE INTERFACE TEK parent-model.ts
 
   constructor(
@@ -28,7 +32,8 @@ export class ParentComponent implements OnInit {
 
   loadParents(): void {
     this.parentService.getAll().subscribe((parents) => {
-      this.parents = parents || [];
+      this.parents = new MatTableDataSource(parents || []);
+      this.parents.paginator = this.paginator;
     });
   }
 

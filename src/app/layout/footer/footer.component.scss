@@ -1,0 +1,12 @@
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #673ab7;
+    color: #ffff;
+    border-top: 1px solid #ddd;
+  
+    // Optional: Responsive design
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+  }

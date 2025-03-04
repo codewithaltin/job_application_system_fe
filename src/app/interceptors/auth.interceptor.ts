@@ -8,7 +8,7 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
-  const token = sessionStorage.getItem('jwt_token');
+  const token = localStorage.getItem('jwt_token');
 
   let authReq = req;
   if (token) {

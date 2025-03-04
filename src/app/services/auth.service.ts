@@ -21,12 +21,12 @@ export class AuthService extends ApiBaseService {
   }
 
   saveToken(token: string): void {
-    sessionStorage.setItem('jwt_token', token);
+    localStorage.setItem('jwt_token', token);
     this.authStateSubject.next(true);
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('jwt_token');
+    return localStorage.getItem('jwt_token');
   }
 
   isAuthenticated(): boolean {
@@ -46,7 +46,7 @@ export class AuthService extends ApiBaseService {
   }
 
   logout(): void {
-    sessionStorage.removeItem('jwt_token');
+    localStorage.removeItem('jwt_token');
     this.authStateSubject.next(false);
   }
 }

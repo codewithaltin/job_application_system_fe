@@ -20,8 +20,8 @@ import { Parent } from './model/parent-model';
       </div>
       <div>
         <mat-form-field>
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
+          <mat-label>Location</mat-label>
+          <textarea matInput formControlName="location"></textarea>
         </mat-form-field>
       </div>
       <div mat-dialog-actions>
@@ -48,7 +48,7 @@ export class ParentDialogComponent {
   ) {
     this.parentForm = this.fb.group({
       name: [data.name || '', Validators.required],
-      description: [data.description || ''],
+      location: [data.location || ''],
     });
   }
 

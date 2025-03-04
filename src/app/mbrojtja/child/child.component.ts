@@ -8,6 +8,8 @@ import { Child } from './model/child-model';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTab } from '@angular/material/tabs';
+import { ParentService } from '../parent/service/parent.service';
+import { Parent } from '../parent/model/parent-model';
 
 @Component({
   selector: 'app-child',
@@ -17,23 +19,26 @@ import { MatTab } from '@angular/material/tabs';
 })
 export class ChildComponent implements OnInit {
   children: Child[] = [];
-  displayedColumns: string[] = ['name', 'description', 'parent', 'actions'];
+  parents: Parent[] = [];
+  displayedColumns: string[] = ['name', 'issueNumber', 'parent', 'actions'];
   filteredChildren: Child[] = [];
 
   constructor(
     private childService: ChildService,
     private dialog: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private parentService: ParentService
   ) {}
 
   ngOnInit(): void {
     this.loadChildren();
+    this.loadParents();
   }
 
   loadChildren(): void {
     this.childService.getAll().subscribe((children) => {
       this.children = children;
-      this.filteredChildren = this.children.filter((child) => !child.deleted);
+      this.filteredChildren = this.children;
     });
   }
 
@@ -41,7 +46,7 @@ export class ChildComponent implements OnInit {
     const dialogRef = this.dialog.open(ChildDialogComponent, {
       data: child
         ? { ...child, parent: child.parent || null }
-        : { name: '', description: '', parent: null },
+        : { name: '', issueNumber: '', parent: null },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -75,15 +80,15 @@ export class ChildComponent implements OnInit {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+  loadParents(): void {
+    this.parentService.getAll().subscribe((parents) => {
+      this.parents = parents || [];
+    });
+  }
+
+  applyFilter(filterValue: number) {
     this.filteredChildren = this.children.filter((child) => {
-      return (
-        child.name.toLowerCase().includes(filterValue) ||
-        child.description.toLowerCase().includes(filterValue) ||
-        (child.parent?.name &&
-          child.parent.name.toLowerCase().includes(filterValue))
-      );
+      return child.parent.id === filterValue;
     });
   }
 }

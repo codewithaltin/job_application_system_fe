@@ -14,7 +14,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class ParentComponent implements OnInit {
   parents: Parent[] = [];
-  displayedColumns: string[] = ['name', 'description', 'actions']; //NDRROJ KTO KOLONA SIPAS MODELIT TE INTERFACE TEK parent-model.ts
+  displayedColumns: string[] = ['name', 'location', 'actions']; //NDRROJ KTO KOLONA SIPAS MODELIT TE INTERFACE TEK parent-model.ts
 
   constructor(
     private parentService: ParentService,
@@ -34,7 +34,7 @@ export class ParentComponent implements OnInit {
 
   openDialog(parent?: Parent): void {
     const dialogRef = this.dialog.open(ParentDialogComponent, {
-      data: parent ? { ...parent } : { name: '', description: '' },
+      data: parent ? { ...parent } : { name: '', location: '' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -20,8 +20,7 @@ export class EmployerProfileComponent {
   userRole: string = '';
   userId: string = '';
   jobPostings: any[] = [];
-  applicantsMap: { [id: string]: any } = {}; // Object to store applicant details
-
+  applicantsMap: { [id: string]: any } = {};
   private authService = inject(AuthService);
   private profileService = inject(ProfileService);
   private dialog = inject(MatDialog);

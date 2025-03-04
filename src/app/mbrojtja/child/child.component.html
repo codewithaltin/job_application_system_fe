@@ -1,11 +1,14 @@
 <div class="p-6">
   <div class="flex justify-between align-middle gap-4 my-2">
     <mat-form-field class="py-4">
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        placeholder="Search children"
-      />
+      <mat-select
+        placeholder="Filter publishers"
+        (selectionChange)="applyFilter($event.value)"
+      >
+        <mat-option *ngFor="let parent of parents" [value]="parent.id">
+          {{ parent.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="openDialog()">
       <span>Add</span>
@@ -18,13 +21,13 @@
       <td mat-cell *matCellDef="let child">{{ child.name }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td mat-cell *matCellDef="let child">{{ child.description }}</td>
+    <ng-container matColumnDef="issueNumber">
+      <th mat-header-cell *matHeaderCellDef>Issue number</th>
+      <td mat-cell *matCellDef="let child">{{ child.issueNumber }}</td>
     </ng-container>
 
     <ng-container matColumnDef="parent">
-      <th mat-header-cell *matHeaderCellDef>Parent</th>
+      <th mat-header-cell *matHeaderCellDef>Botuesi</th>
       <td mat-cell *matCellDef="let child">{{ child.parent.name }}</td>
     </ng-container>
 

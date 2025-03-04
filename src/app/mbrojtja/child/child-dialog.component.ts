@@ -21,13 +21,13 @@ import { SharedModule } from '../../shared/shared.module';
       </div>
       <div>
         <mat-form-field>
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
+          <mat-label>Issue number</mat-label>
+          <textarea matInput formControlName="issueNumber"></textarea>
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <mat-label>Select Parent</mat-label>
+          <mat-label>Select Publisher</mat-label>
           <mat-select formControlName="parent">
             <mat-option *ngFor="let parent of parents" [value]="parent.id">
               {{ parent.name }}
@@ -62,7 +62,7 @@ export class ChildDialogComponent {
     this.loadParents();
     this.childForm = this.fb.group({
       name: [data?.name || '', Validators.required],
-      description: [data?.description || ''],
+      issueNumber: [data?.issueNumber || ''],
       parent: [data.parent?.id || null, Validators.required],
     });
   }

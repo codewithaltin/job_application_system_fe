@@ -44,7 +44,7 @@ import { AuthService } from '../../services/auth.service';
         </mat-error>
       </mat-form-field>
 
-      <!-- Date of Birth -->
+      <!-- Date of Birth 
       <mat-form-field>
         <mat-label>Date of Birth</mat-label>
         <input
@@ -66,7 +66,7 @@ import { AuthService } from '../../services/auth.service';
         <button mat-button type="submit" color="primary">Save</button>
         <button mat-button (click)="onCancel()">Cancel</button>
       </div>
-    </form>
+    </form> -->
   `,
   styles: [
     `

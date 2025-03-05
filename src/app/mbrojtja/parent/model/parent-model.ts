@@ -2,6 +2,6 @@
 export interface Parent {
   id: number;
   name: string;
-  location: string;
-  isDeleted: boolean;
+  nationality: string;
+  deleted: boolean;
 }

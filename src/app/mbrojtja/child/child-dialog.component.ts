@@ -12,7 +12,7 @@ import { SharedModule } from '../../shared/shared.module';
   standalone: true,
   template: `
     <form [formGroup]="childForm" class="m-4 p-8 flex gap-4 flex-col">
-      <h1 mat-dialog-title>{{ data.id ? 'Edit ' : 'Add ' }} Child</h1>
+      <h1 mat-dialog-title>{{ data.id ? 'Edit ' : 'Add ' }} </h1>
       <div>
         <mat-form-field>
           <mat-label>Name</mat-label>
@@ -21,8 +21,14 @@ import { SharedModule } from '../../shared/shared.module';
       </div>
       <div>
         <mat-form-field>
-          <mat-label>Issue number</mat-label>
-          <textarea matInput formControlName="issueNumber"></textarea>
+          <mat-label>Age</mat-label>
+          <input matInput formControlName="age" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Number</mat-label>
+          <input matInput formControlName="number" />
         </mat-form-field>
       </div>
       <div>
@@ -62,7 +68,8 @@ export class ChildDialogComponent {
     this.loadParents();
     this.childForm = this.fb.group({
       name: [data?.name || '', Validators.required],
-      issueNumber: [data?.issueNumber || ''],
+      age: [data?.age || ''],
+      number: [data?.number || ''],
       parent: [data.parent?.id || null, Validators.required],
     });
   }

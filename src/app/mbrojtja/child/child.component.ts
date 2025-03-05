@@ -20,7 +20,7 @@ import { Parent } from '../parent/model/parent-model';
 export class ChildComponent implements OnInit {
   children: Child[] = [];
   parents: Parent[] = [];
-  displayedColumns: string[] = ['name', 'issueNumber', 'parent', 'actions'];
+  displayedColumns: string[] = ['name', 'age', 'number', 'parent', 'actions'];
   filteredChildren: Child[] = [];
 
   constructor(
@@ -36,9 +36,9 @@ export class ChildComponent implements OnInit {
   }
 
   loadChildren(): void {
-    this.childService.getAll().subscribe((children) => {
+      this.childService.getAll().subscribe((children) => { 
       this.children = children;
-      this.filteredChildren = this.children;
+      this.filteredChildren = children.filter(child=> !child.deleted);
     });
   }
 
@@ -46,7 +46,7 @@ export class ChildComponent implements OnInit {
     const dialogRef = this.dialog.open(ChildDialogComponent, {
       data: child
         ? { ...child, parent: child.parent || null }
-        : { name: '', issueNumber: '', parent: null },
+        : { name: '', age: '', number: '',  parent: null },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

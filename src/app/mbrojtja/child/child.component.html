@@ -2,7 +2,7 @@
   <div class="flex justify-between align-middle gap-4 my-2">
     <mat-form-field class="py-4">
       <mat-select
-        placeholder="Filter publishers"
+        placeholder="Filter "
         (selectionChange)="applyFilter($event.value)"
       >
         <mat-option *ngFor="let parent of parents" [value]="parent.id">
@@ -21,9 +21,14 @@
       <td mat-cell *matCellDef="let child">{{ child.name }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="issueNumber">
-      <th mat-header-cell *matHeaderCellDef>Issue number</th>
-      <td mat-cell *matCellDef="let child">{{ child.issueNumber }}</td>
+    <ng-container matColumnDef="age">
+      <th mat-header-cell *matHeaderCellDef>Age</th>
+      <td mat-cell *matCellDef="let child">{{ child.age }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef>Number</th>
+      <td mat-cell *matCellDef="let child">{{ child.number }}</td>
     </ng-container>
 
     <ng-container matColumnDef="parent">
